@@ -43,9 +43,9 @@ class FormFactoryTest extends Unit
 	}
 
 
-	public function testCreate()
+	public function testGetForm()
 	{
-		$form = $this->formFactory->create();
+		$form = $this->formFactory->getForm();
 
 		$this->assertEquals('novalidate', $form->getElementPrototype()->getAttribute('novalidate'));
 		$this->assertEquals($this->translator, $form->getTranslator());

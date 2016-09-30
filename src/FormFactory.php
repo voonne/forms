@@ -11,10 +11,13 @@
 namespace Voonne\Forms;
 
 use Nette\Localization\ITranslator;
+use Nette\SmartObject;
 
 
 class FormFactory
 {
+
+	use SmartObject;
 
 	/**
 	 * @var ITranslator
@@ -31,7 +34,7 @@ class FormFactory
 	/**
 	 * @return Form
 	 */
-	public function create()
+	public function getForm()
 	{
 		$form = new Form;
 
