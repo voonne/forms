@@ -15,5 +15,7 @@ class TextInput extends \Nette\Forms\Controls\TextInput
 {
 
 	use DescriptionProperty;
+	use PrefixProperty;
+	use SuffixProperty;
 
 }

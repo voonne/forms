@@ -34,7 +34,7 @@ class DescriptionPropertyTest extends Unit
 	}
 
 
-	public function testSetDescription()
+	public function testDescription()
 	{
 		$this->assertNull($this->descriptionProperty->getDescription());
 

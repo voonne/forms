@@ -11,11 +11,34 @@
 namespace Voonne\Forms\Controls;
 
 
-class UploadControl extends \Nette\Forms\Controls\UploadControl
+trait PrefixProperty
 {
 
-	use DescriptionProperty;
-	use PrefixProperty;
-	use SuffixProperty;
+	/**
+	 * @var string|null
+	 */
+	private $prefix;
+
+
+	/**
+	 * @param string $prefix
+	 *
+	 * @return $this
+	 */
+	public function setPrefix($prefix)
+	{
+		$this->prefix = $prefix;
+
+		return $this;
+	}
+
+
+	/**
+	 * @return string|null
+	 */
+	public function getPrefix()
+	{
+		return $this->prefix;
+	}
 
 }
