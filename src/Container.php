@@ -13,6 +13,8 @@ namespace Voonne\Forms;
 use Voonne\Forms\Controls\Button;
 use Voonne\Forms\Controls\Checkbox;
 use Voonne\Forms\Controls\CheckboxList;
+use Voonne\Forms\Controls\DatePicker;
+use Voonne\Forms\Controls\DateTimePicker;
 use Voonne\Forms\Controls\HiddenField;
 use Voonne\Forms\Controls\ImageButton;
 use Voonne\Forms\Controls\MultiSelectBox;
@@ -21,6 +23,7 @@ use Voonne\Forms\Controls\SelectBox;
 use Voonne\Forms\Controls\SubmitButton;
 use Voonne\Forms\Controls\TextArea;
 use Voonne\Forms\Controls\TextInput;
+use Voonne\Forms\Controls\TimePicker;
 use Voonne\Forms\Controls\UploadControl;
 
 
@@ -230,6 +233,48 @@ class Container extends \Nette\Forms\Container
 			$control->setAttribute('size', (int)$size);
 		}
 		return $this[$name] = $control;
+	}
+
+
+	/**
+	 * Adds date picker to the form.
+	 *
+	 * @param string $name
+	 * @param string|null $label
+	 *
+	 * @return DatePicker
+	 */
+	public function addDatePicker($name, $label = null)
+	{
+		return $this[$name] = new DatePicker($label);
+	}
+
+
+	/**
+	 * Adds time picker to the form.
+	 *
+	 * @param string $name
+	 * @param string|null $label
+	 *
+	 * @return TimePicker
+	 */
+	public function addTimePicker($name, $label = null)
+	{
+		return $this[$name] = new TimePicker($label);
+	}
+
+
+	/**
+	 * Adds date time picker to the form.
+	 *
+	 * @param string $name
+	 * @param string|null $label
+	 *
+	 * @return DateTimePicker
+	 */
+	public function addDateTimePicker($name, $label = null)
+	{
+		return $this[$name] = new DateTimePicker($label);
 	}
 
 

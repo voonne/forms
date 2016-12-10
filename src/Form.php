@@ -13,6 +13,8 @@ namespace Voonne\Forms;
 use Voonne\Forms\Controls\Button;
 use Voonne\Forms\Controls\Checkbox;
 use Voonne\Forms\Controls\CheckboxList;
+use Voonne\Forms\Controls\DatePicker;
+use Voonne\Forms\Controls\DateTimePicker;
 use Voonne\Forms\Controls\HiddenField;
 use Voonne\Forms\Controls\ImageButton;
 use Voonne\Forms\Controls\MultiSelectBox;
@@ -21,6 +23,7 @@ use Voonne\Forms\Controls\SelectBox;
 use Voonne\Forms\Controls\SubmitButton;
 use Voonne\Forms\Controls\TextArea;
 use Voonne\Forms\Controls\TextInput;
+use Voonne\Forms\Controls\TimePicker;
 use Voonne\Forms\Controls\UploadControl;
 
 
@@ -31,9 +34,9 @@ class Form extends \Nette\Application\UI\Form
 	 * Adds single-line text input control to the form.
 	 *
 	 * @param string $name
-	 * @param string $label
-	 * @param int $cols
-	 * @param int $maxLength
+	 * @param string|null $label
+	 * @param integer|null $cols
+	 * @param integer|null $maxLength
 	 *
 	 * @return TextInput
 	 */
@@ -49,9 +52,9 @@ class Form extends \Nette\Application\UI\Form
 	 * Adds single-line text input control used for sensitive input such as passwords.
 	 *
 	 * @param string $name
-	 * @param string $label
-	 * @param int $cols
-	 * @param int $maxLength
+	 * @param string|null $label
+	 * @param integer|null $cols
+	 * @param integer|null $maxLength
 	 *
 	 * @return TextInput
 	 */
@@ -67,9 +70,9 @@ class Form extends \Nette\Application\UI\Form
 	 * Adds multi-line text input control to the form.
 	 *
 	 * @param string $name
-	 * @param string $label
-	 * @param int $cols
-	 * @param int $rows
+	 * @param string|null $label
+	 * @param integer|null $cols
+	 * @param integer|null $rows
 	 *
 	 * @return TextArea
 	 */
@@ -85,8 +88,8 @@ class Form extends \Nette\Application\UI\Form
 	 * Adds control that allows the user to upload files.
 	 *
 	 * @param string $name
-	 * @param string $label
-	 * @param bool $multiple
+	 * @param string|null $label
+	 * @param boolean|null $multiple
 	 *
 	 * @return UploadControl
 	 */
@@ -100,7 +103,7 @@ class Form extends \Nette\Application\UI\Form
 	 * Adds control that allows the user to upload multiple files.
 	 *
 	 * @param string $name
-	 * @param string $label
+	 * @param string|null $label
 	 *
 	 * @return UploadControl
 	 */
@@ -130,7 +133,7 @@ class Form extends \Nette\Application\UI\Form
 	 * Adds check box control to the form.
 	 *
 	 * @param string $name
-	 * @param string $caption
+	 * @param string|null $caption
 	 *
 	 * @return Checkbox
 	 */
@@ -144,8 +147,8 @@ class Form extends \Nette\Application\UI\Form
 	 * Adds set of radio button controls to the form.
 	 *
 	 * @param string $name
-	 * @param string $label
-	 * @param array $items
+	 * @param string|null $label
+	 * @param array|null $items
 	 *
 	 * @return RadioList
 	 */
@@ -159,8 +162,8 @@ class Form extends \Nette\Application\UI\Form
 	 * Adds set of checkbox controls to the form.
 	 *
 	 * @param string $name
-	 * @param string $label
-	 * @param array $items
+	 * @param string|null $label
+	 * @param array|null $items
 	 *
 	 * @return CheckboxList
 	 */
@@ -174,9 +177,9 @@ class Form extends \Nette\Application\UI\Form
 	 * Adds select box control that allows single item selection.
 	 *
 	 * @param string $name
-	 * @param string $label
-	 * @param array $items
-	 * @param int $size
+	 * @param string|null $label
+	 * @param array|null $items
+	 * @param integer|null $size
 	 *
 	 * @return SelectBox
 	 */
@@ -194,9 +197,9 @@ class Form extends \Nette\Application\UI\Form
 	 * Adds select box control that allows multiple item selection.
 	 *
 	 * @param string $name
-	 * @param string $label
-	 * @param array $items
-	 * @param int $size
+	 * @param string|null $label
+	 * @param array|null $items
+	 * @param integer|null $size
 	 *
 	 * @return MultiSelectBox
 	 */
@@ -211,10 +214,52 @@ class Form extends \Nette\Application\UI\Form
 
 
 	/**
+	 * Adds date picker to the form.
+	 *
+	 * @param string $name
+	 * @param string|null $label
+	 *
+	 * @return DatePicker
+	 */
+	public function addDatePicker($name, $label = null)
+	{
+		return $this[$name] = new DatePicker($label);
+	}
+
+
+	/**
+	 * Adds time picker to the form.
+	 *
+	 * @param string $name
+	 * @param string|null $label
+	 *
+	 * @return TimePicker
+	 */
+	public function addTimePicker($name, $label = null)
+	{
+		return $this[$name] = new TimePicker($label);
+	}
+
+
+	/**
+	 * Adds date time picker to the form.
+	 *
+	 * @param string $name
+	 * @param string|null $label
+	 *
+	 * @return DateTimePicker
+	 */
+	public function addDateTimePicker($name, $label = null)
+	{
+		return $this[$name] = new DateTimePicker($label);
+	}
+
+
+	/**
 	 * Adds button used to submit form.
 	 *
 	 * @param string $name
-	 * @param string $caption
+	 * @param string|null $caption
 	 *
 	 * @return SubmitButton
 	 */
@@ -228,7 +273,7 @@ class Form extends \Nette\Application\UI\Form
 	 * Adds push buttons with no default behavior.
 	 *
 	 * @param string $name
-	 * @param string $caption
+	 * @param string|null $caption
 	 *
 	 * @return Button
 	 */
@@ -242,8 +287,8 @@ class Form extends \Nette\Application\UI\Form
 	 * Adds graphical button used to submit form.
 	 *
 	 * @param string $name
-	 * @param string $src
-	 * @param string $alt
+	 * @param string|null $src
+	 * @param string|null $alt
 	 *
 	 * @return ImageButton
 	 */
