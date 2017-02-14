@@ -31,6 +31,26 @@ class Container extends \Nette\Forms\Container
 {
 
 	/**
+	 * @var array
+	 */
+	public $onSuccess = [];
+
+	/**
+	 * @var array
+	 */
+	public $onError = [];
+
+	/**
+	 * @var array
+	 */
+	public $onSubmit = [];
+
+	/**
+	 * @var array
+	 */
+	public $onRender = [];
+
+	/**
 	 * @var string|null
 	 */
 	private $label;
@@ -333,6 +353,26 @@ class Container extends \Nette\Forms\Container
 	{
 		$control = new Container($label);
 		$control->currentGroup = $this->currentGroup;
+		if ($this->currentGroup !== NULL) {
+			$this->currentGroup->add($control);
+		}
+
+		$this->onSuccess[] = function (Container $container, $values) use ($control, $name) {
+			$control->onSuccess($container->getComponent($name), $values->{$name});
+		};
+
+		$this->onError[] = function (Container $container) use ($control, $name) {
+			$control->onError($container);
+		};
+
+		$this->onSubmit[] = function (Container $container) use ($control, $name) {
+			$control->onSubmit($container);
+		};
+
+		$this->onRender[] = function (Container $container) use ($control, $name) {
+			$control->onRender($container);
+		};
+
 		return $this[$name] = $control;
 	}
 

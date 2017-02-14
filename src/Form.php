@@ -310,6 +310,26 @@ class Form extends \Nette\Application\UI\Form
 	{
 		$control = new Container($label);
 		$control->currentGroup = $this->currentGroup;
+		if ($this->currentGroup !== NULL) {
+			$this->currentGroup->add($control);
+		}
+
+		$this->onSuccess[] = function (Form $form, $values) use ($control, $name) {
+			$control->onSuccess($form->getComponent($name), $values->{$name});
+		};
+
+		$this->onError[] = function (Form $form) use ($control, $name) {
+			$control->onError($form->getComponent($name));
+		};
+
+		$this->onSubmit[] = function (Form $form) use ($control, $name) {
+			$control->onSubmit($form->getComponent($name));
+		};
+
+		$this->onRender[] = function (Form $form) use ($control, $name) {
+			$control->onRender($form->getComponent($name));
+		};
+
 		return $this[$name] = $control;
 	}
 
