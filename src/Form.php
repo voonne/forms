@@ -315,15 +315,21 @@ class Form extends \Nette\Application\UI\Form
 		}
 
 		$this->onSuccess[] = function (Form $form, $values) use ($control, $name) {
-			$control->onSuccess($form->getComponent($name), $values->{$name});
+			if ($control->isSubmitted()) {
+				$control->onSuccess($form->getComponent($name), $values->{$name});
+			}
 		};
 
 		$this->onError[] = function (Form $form) use ($control, $name) {
-			$control->onError($form->getComponent($name));
+			if ($control->isSubmitted()) {
+				$control->onError($form->getComponent($name));
+			}
 		};
 
 		$this->onSubmit[] = function (Form $form) use ($control, $name) {
-			$control->onSubmit($form->getComponent($name));
+			if ($control->isSubmitted()) {
+				$control->onSubmit($form->getComponent($name));
+			}
 		};
 
 		$this->onRender[] = function (Form $form) use ($control, $name) {

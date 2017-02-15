@@ -10,6 +10,9 @@
 
 namespace Voonne\Forms;
 
+use Nette\Forms\IControl;
+use Nette\UnexpectedValueException;
+use Nette\Utils\Callback;
 use Voonne\Forms\Controls\Button;
 use Voonne\Forms\Controls\Checkbox;
 use Voonne\Forms\Controls\CheckboxList;
@@ -51,6 +54,11 @@ class Container extends \Nette\Forms\Container
 	public $onRender = [];
 
 	/**
+	 * @var bool
+	 */
+	private $validated;
+
+	/**
 	 * @var string|null
 	 */
 	private $label;
@@ -70,6 +78,78 @@ class Container extends \Nette\Forms\Container
 	public function getLabel()
 	{
 		return $this->label;
+	}
+
+
+	/**
+	 * Is form valid?
+	 *
+	 * @return bool
+	 */
+	public function isValid()
+	{
+		if ($this->isSubmitted()) {
+			if(!$this->validated) {
+				if($this->getErrors()) {
+					return false;
+				}
+
+				$this->validate();
+			}
+
+			return !$this->getErrors();
+		} else {
+			return true;
+		}
+	}
+
+
+	/**
+	 * Performs the server side validation.
+	 *
+	 * @param array
+	 *
+	 * @return void
+	 */
+	public function validate(array $controls = NULL)
+	{
+		if ($this->isSubmitted()) {
+			foreach ($controls === null ? $this->getComponents() : $controls as $control) {
+				if($control instanceof IControl || $control instanceof self) {
+					$control->validate();
+				}
+			}
+			if($this->onValidate !== null) {
+				if(!is_array($this->onValidate) && !$this->onValidate instanceof \Traversable) {
+					throw new UnexpectedValueException('Property Form::$onValidate must be array or Traversable, ' . gettype($this->onValidate) . ' given.');
+				}
+				foreach ($this->onValidate as $handler) {
+					$params = Callback::toReflection($handler)->getParameters();
+					$values = isset($params[1]) ? $this->getValues($params[1]->isArray()) : null;
+					Callback::invoke($handler, $this, $values);
+				}
+			}
+			$this->validated = true;
+		} else {
+			$this->validated = true;
+		}
+	}
+
+
+	/**
+	 * Is this part of form submitted?
+	 *
+	 * @return bool
+	 */
+	public function isSubmitted()
+	{
+		foreach ($this->getComponents(true, \Nette\Forms\Controls\Button::class) as $component) {
+			if ($component->isSubmittedBy()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 
